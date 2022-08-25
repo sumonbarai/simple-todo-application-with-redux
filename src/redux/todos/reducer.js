@@ -8,7 +8,7 @@ import {
 } from "./actionType";
 import { initialState } from "./initialState";
 const nextTodoId = (todos) => {
-  const maxId = todos.reducer((maxId, todos) => Math.max(maxId, todos.id), -1);
+  const maxId = todos.reduce((maxId, todos) => Math.max(maxId, todos.id), -1);
   return maxId + 1;
 };
 const reducer = (state = initialState, action) => {
@@ -57,7 +57,12 @@ const reducer = (state = initialState, action) => {
         };
       });
     case CLEARCOMPLETED:
-      return state.filter((todos) => !todos.completed);
+      return state.map((todos) => {
+        return {
+          ...todos,
+          completed: false,
+        };
+      });
     default:
       return state;
   }
